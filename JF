@@ -25,9 +25,9 @@ pipeline {
         }
         stage ('read from a file' ) {
             steps {
-                sh  'cat etc ${Dir_Name}/greetings.txt'
+                sh  'cat ${Dir_Name}/greetings.txt'
             }
         }
 
     }
-} 
+}   
