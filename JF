@@ -1,0 +1,33 @@
+pipeline {
+    environment {
+        Greetings = "Hello !"
+        Name = "Izhan"
+        Dir_Name = "Homies"
+
+    }
+    
+    agent any
+    stages {
+        stage ('Greet' ) {
+            steps {
+                echo "${Greetings} from ${Name}"
+            }
+        }
+        stage ('creating an Directory' ) {
+            steps {
+                sh " mkdir -p ${Dir_Name}"
+            }
+        }
+         stage ('Writing to a file ' ) {
+            steps {
+                sh  'echo "$Greetings from $Name" > $Dir_name/greetings.txt'
+            }
+        }
+        stage ('read from a file ' ) {
+            steps {
+                sh  'cat etc $Dir_name/greetings.txt'
+            }
+        }
+
+    }
+}              
