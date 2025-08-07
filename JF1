@@ -1,7 +1,7 @@
 pipeline {
     agent any
     parameters {
-        string {name: 'USERNAME', defaultValuue: 'Izhan', description: 'Enter your name'}
+        string {name: 'USERNAME', defaultValue: 'Izhan', description: 'Enter your name'}
         choices {name: 'GREETINGS', choices: 'Hi' ,'Hello','Hey' , description: 'Choose a greeting'}
     }
     environment {
@@ -18,7 +18,7 @@ pipeline {
         stage('Make Directory'){
             steps {
                 echo "${params.USERNAME} is creating a directory named ${Dir_Name}"     # This will print the message indicating the directory creation by izhan or specified user in string parameter.
-            } sh  "mkdir -p ${Dir_Name}"           # This will create a directory named GreetingsDir}
+            } sh  "mkdir -p ${Dir_Name}"           # This will create a directory named GreetingsDir
         }
     }
      
