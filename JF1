@@ -3,7 +3,7 @@ pipeline {
 
     parameters {
         string(name: 'USERNAME', defaultValue: 'Izhan', description: 'Enter your name')
-        choices(name: 'GREETINGS', choices: ['Hi', 'Hello', 'Hey'], description: 'Choose a greeting')
+        choices(name: 'GREETINGS', choice: ['Hi', 'Hello', 'Hey'], description: 'Choose a greeting')
     }
 
     environment {
