@@ -20,14 +20,14 @@ pipeline {
         }
          stage ('Writing to a file ' ) {
             steps {
-                sh  'echo "$Greetings from $Name" > $Dir_name/greetings.txt'
+                sh  'echo "${Greetings} from ${Name}" > ${Dir_name}/greetings.txt'
             }
         }
-        stage ('read from a file ' ) {
+        stage ('read from a file' ) {
             steps {
-                sh  'cat etc $Dir_name/greetings.txt'
+                sh  'cat etc ${Dir_name}/greetings.txt'
             }
         }
 
     }
-}              
+} 
