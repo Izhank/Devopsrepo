@@ -1,39 +1,43 @@
 pipeline {
     agent any 
+
     parameters {
-        string{name: 'USERNAME', defaultValue: 'Izhan', description: 'Enter your Name'}
-        choice{name: 'ENV',  choices: ['Dev','Staging','Deploy'] , description: 'Choose a branch' }
-        bolean{name: 'Do_Deploy', defaultValue: fasle , description: 'Should we deploy after build?'}
-        /* password{name: 'SECRET', defaultValue: '' , description: 'Enter your Password'}
-        text{name: 'NOTES', defaultValure: 'Enter your notes here', description: 'Any additional notes you want to add'} */
-
+        string(name: 'USERNAME', defaultValue: 'Izhan', description: 'Enter your Name')
+        choice(name: 'ENV', choices: ['Dev', 'Staging', 'Deploy'], description: 'Choose a branch')
+        booleanParam(name: 'Do_Deploy', defaultValue: false, description: 'Should we deploy after build?')
+        /* password(name: 'SECRET', defaultValue: '', description: 'Enter your Password')
+        text(name: 'NOTES', defaultValue: 'Enter your notes here', description: 'Any additional notes you want to add') */
     }
-    stages{
-        stage (Enter Parameters) {
-            echo "Username: ${params.USERNAME}"
-            echo "ENV: ${params.ENV}"
-            echo "Do_Deploy: ${params.Do_Deploy}"
-             /* echo "SECRET: ${params.SECRET}"  // Note: Be cautious with printing sensitive information like passwords, yes this is for practice but in real scenarios, avoid echoing sensitive data.
-            echo "NOTES: ${params.NOTES}" */
 
-        }
-        stage (Conditonal Deploy) {
-            when{
-                expression { return params.Do_Deploy }
-            }
+    stages {
+        stage('Enter Parameters') {
             steps {
-                echo "Deploying ${params.Do_Deploy} as ${params.USERNAME} on ${params.ENV}"
-               sh " mkdir -p Deployments-${params.ENV}"
-               sh "echo 'deplyed by ${params.USERNAME} on ${params.ENV}' > Deployments-${params.ENV}/deployment.txt"
-               sh "cat Deployments-${params.ENV}/deployment.txt"
+                echo "Username: ${params.USERNAME}"
+                echo "ENV: ${params.ENV}"
+                echo "Do_Deploy: ${params.Do_Deploy}"
+                /* echo "SECRET: ${params.SECRET}"  // Avoid printing passwords in real pipelines
+                echo "NOTES: ${params.NOTES}" */
             }
         }
-        stage (Skipped Deploy) {
+
+        stage('Conditional Deploy') {
             when {
-                expression {return !params.Do_Deploy }
-            }  
+                expression { params.Do_Deploy }
+            }
             steps {
-                echo "${param.USERNAME} chose not to deploy on ${params.Do_Deploy} environment"
+                echo "Deploying as ${params.USERNAME} on ${params.ENV}"
+                sh "mkdir -p Deployments-${params.ENV}"
+                sh "echo 'deployed by ${params.USERNAME} on ${params.ENV}' > Deployments-${params.ENV}/deployment.txt"
+                sh "cat Deployments-${params.ENV}/deployment.txt"
+            }
+        }
+
+        stage('Skipped Deploy') {
+            when {
+                expression { !params.Do_Deploy }
+            }
+            steps {
+                echo "${params.USERNAME} chose not to deploy on ${params.ENV} environment"
             }
         }
     }
