@@ -1,25 +1,25 @@
 pipeline {
     agent any 
     parameters {
-        string(name: 'USERNAME', defaultValue: 'Izhan', description: 'Enter your Name')
-        choice(name: 'ENV',  defaultvalue: ['Dev','Stagin','Deploy'] , description: 'Choose a branch' )
-        bolean(name: 'Do_Deploy', defaultValue: fasle , description: 'Should we deploy after build?')
-        password(name: 'SECRET', defaultValue: '' , description: 'Enter your Password')
-        text(name: 'NOTES', defaultValure: 'Enter your notes here', description: 'Any additional notes you want to add')
+        string{name: 'USERNAME', defaultValue: 'Izhan', description: 'Enter your Name'}
+        choice{name: 'ENV',  choices: ['Dev','Staging','Deploy'] , description: 'Choose a branch' }
+        bolean{name: 'Do_Deploy', defaultValue: fasle , description: 'Should we deploy after build?'}
+        /* password{name: 'SECRET', defaultValue: '' , description: 'Enter your Password'}
+        text{name: 'NOTES', defaultValure: 'Enter your notes here', description: 'Any additional notes you want to add'} */
 
     }
     stages{
         stage (Enter Parameters) {
             echo "Username: ${params.USERNAME}"
             echo "ENV: ${params.ENV}"
-            echo "Do_Deploy: ${params.Do_deploy}"
-            echo "SECRET: ${params.SECRET}"  // Note: Be cautious with printing sensitive information like passwords, yes this is for practice but in real scenarios, avoid echoing sensitive data.
-            echo "NOTES: ${params.NOTES}"
+            echo "Do_Deploy: ${params.Do_Deploy}"
+             /* echo "SECRET: ${params.SECRET}"  // Note: Be cautious with printing sensitive information like passwords, yes this is for practice but in real scenarios, avoid echoing sensitive data.
+            echo "NOTES: ${params.NOTES}" */
 
         }
         stage (Conditonal Deploy) {
             when{
-                expression { returns params.Do_Deploy }
+                expression { return params.Do_Deploy }
             }
             steps {
                 echo "Deploying ${params.Do_Deploy} as ${params.USERNAME} on ${params.ENV}"
@@ -30,7 +30,7 @@ pipeline {
         }
         stage (Skipped Deploy) {
             when {
-                expression {returns !params.Do_Deploy }
+                expression {return !params.Do_Deploy }
             }  
             steps {
                 echo "${param.USERNAME} chose not to deploy on ${params.Do_Deploy} environment"
