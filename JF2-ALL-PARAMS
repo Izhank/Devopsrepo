@@ -1,11 +1,11 @@
 pipeline {
     agent any 
     parameters {
-        string{name: 'USERNAME', defaultValue: 'Izhan', description: 'Enter your Name'}
-        choice{name: 'ENV',  defaultvalue: ['Dev','Stagin','Deploy'] , description: 'Choose a branch' }
-        bolean{name: 'Do_Deploy', defaultValue: fasle , description: 'Should we deploy after build?'}
-        password{name: 'SECRET', defaultValue: '' , description: 'Enter your Password'}
-        text{name: 'NOTES', defaultValure: 'Enter your notes here', description: 'Any additional notes you want to add'}
+        string(name: 'USERNAME', defaultValue: 'Izhan', description: 'Enter your Name')
+        choice(name: 'ENV',  defaultvalue: ['Dev','Stagin','Deploy'] , description: 'Choose a branch' )
+        bolean(name: 'Do_Deploy', defaultValue: fasle , description: 'Should we deploy after build?')
+        password(name: 'SECRET', defaultValue: '' , description: 'Enter your Password')
+        text(name: 'NOTES', defaultValure: 'Enter your notes here', description: 'Any additional notes you want to add')
 
     }
     stages{
