@@ -1,0 +1,29 @@
+pipeline {
+    agent any 
+    environment {
+        APP_NAME = 'MyApp'           // This is a global environment variable that can be used in all stages
+    }
+    parameters {
+        string(name: 'USERNAME' , defaultValue: 'Izhan' , description : 'enter your name')
+        choice(name: 'PROJECT' , choices: ['P1', 'P2' , 'P3'], description: 'Choose a project')
+    }
+    stages {
+        stage('Greet') {
+            steps {
+                sh "mkdir -p ${APP_NAME}"
+                echo "creating a directory named ${APP_NAME}"           // This will create a directory named MyApp
+                echo "Hello ${params.USERNAME}, you are working on project ${params.PROJECT}"
+            }
+        }
+        stage('Override') {
+            environment {
+                APP_NAME = 'MyChangedApp'                 // This will override the global environment variable APP_NAME for this stage only
+            }
+            steps {
+               sh "mkdir -p ${APP_NAME}"          // This will create a directory named MyChangedApp
+                echo "creating a directory named ${APP_NAME}"
+                echo "Hello ${params.USERNAME}, you are working on project ${params.PROJECT} in the overridden stage"
+            }
+        }
+    }
+}
